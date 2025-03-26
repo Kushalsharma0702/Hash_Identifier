@@ -1,38 +1,270 @@
-.App {
+/* App.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: #0d1117;
+  --container-bg: rgba(255, 255, 255, 0.1);
+  --text-color: white;
+  --input-bg: rgba(255, 255, 255, 0.15);
+  --button-bg: #00ffcc;
+  --button-hover: #00cc99;
+}
+
+[data-theme="light"] {
+  --bg-color: #f0f0f0;
+  --container-bg: rgba(0, 0, 0, 0.1);
+  --text-color: #333;
+  --input-bg: rgba(0, 0, 0, 0.15);
+  --button-bg: #007bff;
+  --button-hover: #0056b3;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+.page-heading {
   text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Header Styling */
+.header {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2vh 4vw;
+  background: var(--container-bg);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header h1 {
+  font-size: 3vh;
+  white-space: nowrap;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+nav {
+  display: flex;
+  gap: 1vw; /* Reduce spacing */
+  align-items: center;
+}
+.main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  min-height: calc(100vh - 60px); /* Adjust based on navbar height */
+}
+
+nav button {
+  padding: 1vh 2vw;
+  border: none;
+  background: var(--button-bg);
   color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 8px;
+  width: auto; /* Fix width */
+  min-width: 100px; /* Prevent too small buttons */
+  text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+nav button:hover {
+  background: var(--button-hover);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* nav {
+  display: flex;
+  gap: 2vw;
+}
+
+nav button {
+  padding: 1.5vh 2vw;
+  border: none;
+  background: var(--button-bg);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+nav button:hover {
+  background: var(--button-hover);
+} */
+
+/* Theme Toggle Switch */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  width: auto;
+  height: auto;
+}
+
+.theme-toggle input {
+  width: 1vw;
+  height: 3vh;
+  appearance: none;
+  background: var(--button-bg);
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: 0.3s;
+}
+
+.theme-toggle input:checked {
+  background: var(--button-hover);
+}
+
+.theme-toggle input::before {
+  content: "";
+  position: absolute;
+  width: 1vw;
+  height: 1.5vh;
+  background: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  transition: 0.3s;
+}
+
+.theme-toggle input:checked::before {
+  left: 55%;
+}
+
+/* Main Container */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center everything properly */
+  width: 100vw;
+  min-height: 100vh; /* Prevent blank space issues */
+  overflow-x: hidden;
+}
+
+.container {
+  text-align: center;
+  background: var(--container-bg);
+  padding: 4vh 4vw;
+  border-radius: 15px;
+  width: 60vw; /* Prevent overflow */
+  max-width: 500px;
+  margin: auto; /* Center the card properly */
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative; /* Prevent shifting */
+  margin-top: 30vh;
+}
+
+input,
+select,
+button {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: var(--button-bg);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background: var(--button-hover);
+}
+
+
+/* About Section */
+.about {
+  text-align: center;
+  padding: 5vh 5vw;
+  margin-top: 5vh;
+  font-size: 2vh;
+  line-height: 3vh;
+}
+
+/* Hamburger Menu Icon */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger .line {
+  width: 30px;
+  height: 3px;
+  background-color: var(--text-color);
+  margin: 3px 0;
+  transition: 0.4s;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: row; /* Changed to row */
+    justify-content: space-between; /* Added justify-content */
+    align-items: center;
+    text-align: center;
+    padding: 3vh 2vw;
   }
-  to {
-    transform: rotate(360deg);
+
+  nav {
+    display: none; /* Hide the nav menu */
+    flex-direction: column;
+    gap: 1vh;
+    width: 100%;
+    margin-top: 1vh;
+  }
+
+  nav.active {
+    /* Show the menu when active class is applied */
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex; /* Show the hamburger icon */
+  }
+
+  .container {
+    width: 90vw;
+    margin-top: 15vh;
   }
 }

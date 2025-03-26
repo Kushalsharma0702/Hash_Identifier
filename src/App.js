@@ -1,15 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CryptoJS from "crypto-js";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
 import "./App.css";
 
-const hashAlgorithms = [
-  "MD5",
-  "SHA-1",
-  "SHA-256",
-  "SHA-512"
-];
+const hashAlgorithms = ["MD5", "SHA-1", "SHA-256", "SHA-512"];
 
 const generateHash = (text, algorithm) => {
   switch (algorithm) {
@@ -27,6 +20,7 @@ const generateHash = (text, algorithm) => {
 };
 
 const detectHashType = (hash) => {
+  if (!hash) return "Unknown";
   if (hash.length === 32) return "MD5";
   if (hash.length === 40) return "SHA-1";
   if (hash.length === 64) return "SHA-256";
@@ -34,16 +28,23 @@ const detectHashType = (hash) => {
   return "Unknown";
 };
 
-const decryptHash = (hash) => {
-  return "Decryption not possible for one-way hashes";
-};
-
 const App = () => {
   const [inputText, setInputText] = useState("");
   const [selectedAlgorithm, setSelectedAlgorithm] = useState("MD5");
   const [hash, setHash] = useState("");
   const [detectedType, setDetectedType] = useState("");
-  const [decryptedText, setDecryptedText] = useState("");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [hashToIdentify, setHashToIdentify] = useState("");
+  const [identifiedType, setIdentifiedType] = useState("Unknown");
+
+  useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const handleGenerate = () => {
     const generatedHash = generateHash(inputText, selectedAlgorithm);
@@ -51,39 +52,27 @@ const App = () => {
     setDetectedType(detectHashType(generatedHash));
   };
 
-  const handleDecrypt = () => {
-    setDecryptedText(decryptHash(hash));
-  };
-
-  const particlesInit = async (main) => {
-    await loadFull(main);
+  const handleIdentify = () => {
+    setIdentifiedType(detectHashType(hashToIdentify));
   };
 
   return (
     <div className="app">
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        options={{
-          background: {
-            color: "#0d1117",
-          },
-          particles: {
-            number: {
-              value: 100,
-            },
-            size: {
-              value: 3,
-            },
-            move: {
-              enable: true,
-              speed: 1,
-            },
-          },
-        }}
-      />
-      <div className="container">
-        <h1>Hash Identifier & Converter</h1>
+      <header className="header">
+        <h1>Hash Identifier</h1>
+        <nav>
+          <button>Home</button>
+          <button>About</button>
+          <button>Contact</button>
+        </nav>
+        <button className="theme-toggle" onClick={toggleTheme}>
+          {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        </button>
+      </header>
+      <h1 class="page-heading">Welcome to Hash Identifier</h1>
+
+      <main className="container">
+        <h2>Generate & Identify Hashes</h2>
         <input
           type="text"
           value={inputText}
@@ -101,9 +90,27 @@ const App = () => {
         <button onClick={handleGenerate}>Generate Hash</button>
         {hash && <p className="hash-output">Generated Hash: {hash}</p>}
         {hash && <p>Detected Type: {detectedType}</p>}
-        <button onClick={handleDecrypt}>Decrypt Hash</button>
-        {decryptedText && <p className="decrypted-output">{decryptedText}</p>}
-      </div>
+
+        <h2>Identify Hash</h2>
+        <input
+          type="text"
+          value={hashToIdentify}
+          onChange={(e) => setHashToIdentify(e.target.value)}
+          placeholder="Enter hash to identify"
+        />
+        <button onClick={handleIdentify}>Identify Hash</button>
+        <p>Identified Type: {identifiedType}</p>
+      </main>
+
+      <section className="about">
+        <h2>About This Project</h2>
+        <p>
+          This tool generates cryptographic hash values using popular algorithms
+          like MD5, SHA-1, SHA-256, and SHA-512. It also detects the type of a
+          given hash. Note that cryptographic hashes are one-way functions and
+          cannot be decrypted.
+        </p>
+      </section>
     </div>
   );
 };
