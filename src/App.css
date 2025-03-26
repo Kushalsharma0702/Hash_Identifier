@@ -211,6 +211,13 @@ button:hover {
   background: var(--button-hover);
 }
 
+.hash-output {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  max-width: 90%;
+  margin: auto;
+}
 
 /* About Section */
 .about {
